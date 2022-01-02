@@ -2,7 +2,7 @@
 long long maxSubarraySum(int arr[], int n)
 {
 
-    int max_sum = 0;
+    int max_sum = INT_MIN;
     for (int i = 0; i < n; i++)
         max_sum += arr[i];
     int sum = 0;
