@@ -1,1 +1,20 @@
-// Write a function findFirstLoopNode() that checks whether a given Linked List contains a loop. If the loop is present then it returns point to the first node of the loop. Else it returns NULL.
+// Remove duplicate element from sorted Linked List
+Node *removeDuplicates(Node *head)
+{
+    Node *cur = head;
+    Node *front;
+    while (cur != NULL && cur->next != NULL)
+    {
+
+        front = cur->next;
+        while (front->data == cur->data)
+        {
+            front = front->next;
+            if (front == NULL)
+                break;
+        }
+        cur->next = front;
+        cur = front;
+    }
+    return head;
+}
