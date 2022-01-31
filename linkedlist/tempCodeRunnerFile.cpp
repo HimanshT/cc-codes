@@ -1,1 +1,1 @@
- // reverse(head);
+head = ans(head, 2);
