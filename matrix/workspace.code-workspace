@@ -1,0 +1,17 @@
+{
+  "folders": [
+	{
+		"path": ".."
+	},
+	{
+		"path": "../../../contest"
+	}
+],
+  "settings": {
+    "files.associations": {
+      "bitset": "cpp",
+      "chrono": "cpp",
+      "algorithm": "cpp"
+    }
+  }
+}
