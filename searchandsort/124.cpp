@@ -7,7 +7,7 @@ typedef long long ll;
 int sol(int *arr,int n,int cows)
 {
     sort(arr,arr+n);
-    int low=1,high=arr[n-1];
+    int low=1,high=1e9;
     int ans=0;
     while(low<=high)
     {
