@@ -1,30 +1,61 @@
-// Given a string of characters, find the length of the longest proper prefix which is also a proper suffix.
+//kmp algorithm
 
-// NOTE: Prefix and suffix can be overlapping but they should not be equal to the entire string.
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
 
-int lps(string str) {
-	// Your code goes here
-	int n = str.length();
-	vector<int> v(n, 0);
-	int i = 0, j = 1;
-	while (j < n)
+void kmp(string text, string pattern)
+{
+	//prefix table
+	int t = text.length();
+	int p = pattern.length();
+	int index = -1;
+	vector<int> prefix(p, 0);
+	int i, j; i = 0, j = i + 1;
+	for (; j < p; j++)
 	{
-		if (str[i] == str[j])
+		if (pattern[i] == pattern[j])
 		{
-			v[j] = i + 1;
-			i++, j++;
+			prefix[j] = i + 1;
 		}
 		else
 		{
-			if (i > 0)
-			{
-				i = v[i - 1];
-			}
-			else
-			{
-				j++;
-			}
+			i = prefix[i];
 		}
 	}
-	return v[n - 1];
+
+	for (int i = 0; i < p; i++)
+		cout << prefix[i] << " ";
+	cout << "\n";
+
+	//checking the pattern
+	int ptr1 = 0, ptr2 = 0; //ptr1---text,ptr2--pattern
+	for (; ptr1 < t; ptr1++)
+	{
+		if (text[ptr1] == pattern[ptr2])
+		{
+			ptr2++;
+			if (ptr2 == p)
+			{
+				index = ptr1 - ptr2 + 1;
+			}
+		}
+		else
+		{
+			ptr2 == prefix[ptr2];
+		}
+	}
+	cout << index;
+}
+
+int main()
+{
+	int test = 1;
+	while (test--)
+	{
+		string text = "thisiskmp";
+		string pattern = "is";
+		kmp(text, pattern);
+	}
+	return 0;
 }
