@@ -80,7 +80,7 @@ string longestPalin (string S) {
     //filling for len>2
     for (int dis = 2; dis < n; dis++)
     {
-        start = 0;
+
         end = start + dis;
         while (end < n)
         {

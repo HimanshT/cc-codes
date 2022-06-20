@@ -3,10 +3,7 @@ long long maxSubarraySum(int arr[], int n)
 {
 
     int max_sum = INT_MIN;
-    for (int i = 0; i < n; i++)
-        max_sum += arr[i];
     int sum = 0;
-    int pre_sum;
     for (int j = 0; j < n; j++)
     {
         sum += arr[j];
