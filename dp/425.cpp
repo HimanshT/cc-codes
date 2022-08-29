@@ -1,24 +1,32 @@
 // Longest Increasing Subsequence
 
-int fn(int *a, int ci, int pi, int n, vector<vector<int>>&dp)
-{
-	if (ci == n)
-		return 0;
-	if (dp[ci][pi + 1] != -1)
-		return dp[ci][pi + 1];
-	int len = fn(a, ci + 1, pi, n, dp);
-	if (pi == -1 || a[pi] < a[ci])
+class Solution {
+public:
+	int bs(vector<int> &lis, int low, int high, int x)
 	{
-		len = max(len, 1 + fn(a, ci + 1, ci, n, dp));
+		while (high > low)
+		{
+			int mid = (high + low) / 2;
+			if (lis[mid] >= x)
+				high = mid;
+			else
+				low = mid + 1;
+		}
+		return high;
 	}
-	dp[ci][pi + 1] = len;
-	return len;
-}
-int longestSubsequence(int n, int a[])
-{
-	vector<vector<int>> dp(n, vector<int> (n + 1, -1));
-	int ans = fn(a, 0, -1, n, dp);
-	return ans;
-}
-
-//if n=10^5,it will be difficult to create a vector,so better approach
+	int lengthOfLIS(vector<int>& nums) {
+		int n = nums.size();
+		vector<int> lis;
+		for (int i = 0; i < n; i++)
+		{
+			if (lis.empty() || nums[i] > lis[lis.size() - 1])
+				lis.push_back(nums[i]);
+			else if (nums[i] < lis[lis.size() - 1])
+			{
+				int x = bs(lis, 0, lis.size() - 1, nums[i]);
+				lis[x] = nums[i];
+			}
+		}
+		return lis.size();
+	}
+};

@@ -1,25 +1,24 @@
 // BFS of graph
 
 vector<int> bfsOfGraph(int V, vector<int> adj[]) {
-	vector<int> sol;
+	// Code here
+	vector<int> ans;
+	vector<int> visited(V, 0);
 	queue<int> q;
-	unordered_map<int, int> umap;
-	q.push(0);
-	umap[0]++;
+	q.push(0); visited[0] = 1;
 	while (!q.empty())
 	{
-		int curr = q.front();
+		int v = q.front();
 		q.pop();
-		for (int i = 0; i < adj[curr].size(); i++)
+		ans.push_back(v);
+		for (auto u : adj[v])
 		{
-			if (umap[adj[curr][i]] == 0)
+			if (!visited[u])
 			{
-				q.push(adj[curr][i]);
-				umap[adj[curr][i]]++;
+				q.push(u);
+				visited[u] = 1;
 			}
 		}
-		sol.push_back(curr);
 	}
-
-	return sol;
+	return ans;
 }

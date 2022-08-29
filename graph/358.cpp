@@ -1,51 +1,20 @@
-// DFS Traversal
+// DFS of Graph
 
-/*
-    Time Complexity     :   O((V * log(V)) + E)
-    Space Complexity    :   O(V + E)
-
-    Where 'V' is the number of vertex and 'E' is the number of edges in graph.
-*/
-
-void depthFirstSearchHelper(int vertex, vector<int> &visited, vector<int> &singleComponent, vector<vector<int>> &graph)
+void dfs(int v, vector<int> adj[], vector<bool>&visited, vector<int>&ans)
 {
-	visited[vertex] = 1;
-	singleComponent.push_back(vertex);
-
-	for (auto child : graph[vertex])
+	visited[v] = true;
+	ans.push_back(v);
+	for (auto u : adj[v])
 	{
-		// Check if the node is visited before or not.
-		if (!visited[child])
+		if (!visited[u])
 		{
-			depthFirstSearchHelper(child, visited, singleComponent, graph);
+			dfs(u, adj, visited, ans);
 		}
 	}
 }
-
-vector<vector<int>> depthFirstSearch(int V, int E, vector<vector<int>> &edges)
-{
-	// Creating Adjacency Matrix.
-	vector<vector<int>> graph(V);
-	for (int i = 0; i < E; i++)
-	{
-		int a, b;
-		a = edges[i][0];
-		b = edges[i][1];
-		graph[a].push_back(b);
-		graph[b].push_back(a);
-	}
-
-	vector<vector<int>> components;
-	vector<int> visited(V, 0);
-
-	for (int vertex = 0; vertex < V; vertex++)
-	{
-		if (!visited[vertex])
-		{
-			vector<int> singleComponent;
-			depthFirstSearchHelper(vertex, visited, singleComponent, graph);
-			components.push_back(singleComponent);
-		}
-	}
-	return components;
+vector<int> dfsOfGraph(int V, vector<int> adj[]) {
+	vector<bool> visited(V, false);
+	vector<int> ans;
+	dfs(0, adj, visited, ans);
+	return ans;
 }

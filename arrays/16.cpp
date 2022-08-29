@@ -7,15 +7,26 @@ class Solution
 public:
     int findDuplicate(vector<int> &nums)
     {
-        sort(nums.begin(), nums.end());
-        int value;
-        for (int i = 0; i < (nums.size() - 1); i++)
+        int low = 1, high = nums.size() - 1, cnt;
+
+        while (low <=  high)
         {
-            if (nums.at(i) == nums.at(i + 1))
+            int mid = low + (high - low) / 2;
+            cnt = 0;
+            // cnt number less than equal to mid
+            for (int n : nums)
             {
-                value = nums.at(i);
+                if (n <= mid)
+                    ++cnt;
             }
+            // binary search on left
+            if (cnt <= mid)
+                low = mid + 1;
+            else
+                // binary search on right
+                high = mid - 1;
+
         }
-        return value;
+        return low;
     }
 };

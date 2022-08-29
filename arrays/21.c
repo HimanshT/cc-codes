@@ -1,70 +1,69 @@
 // Given an array of integers. Find the Inversion Count in the array.
 // merged sort
 // sol note done 1.2sec!!! don't is nlogn but asks to optimize more
-#include <stdio.h>
-int shift = 0;
-int merge(int *arr, int lb, int mid, int up)
-{
-    int n = up - lb + 1;
-    int newArr[n];
-    int p1 = lb, p2 = mid + 1;
-    for (int i = 0; i < n; i++)
+
+class Solution {
+public:
+    // arr[]: Input Array
+    // N : Size of the Array arr[]
+    // Function to count inversions in the array.
+    long long ans = 0;
+    void merge(long long *arr, long long low, long long mid, long long high)
     {
-        if (p1 <= mid && p2 <= up)
+        long long n = high - low + 1;
+        long long temp[n];
+        long long ptr1 = low, ptr2 = mid + 1;
+        for (long long i = 0; i < n; i++)
         {
-            if (arr[p1] < arr[p2])
+            if (ptr1 <= mid and ptr2 <= high)
             {
-                newArr[i] = arr[p1];
-                p1++;
-            }
-            else
+                if (arr[ptr1] <= arr[ptr2])
+                {
+
+                    temp[i] = arr[ptr1];
+                    ptr1++;
+                }
+                else
+                {
+                    ans += mid - ptr1 + 1;
+                    temp[i] = arr[ptr2];
+                    ptr2++;
+                }
+            } else if (ptr1 > mid)
             {
-                newArr[i] = arr[p2];
-                p2++;
-                shift = shift + mid - p1 + 1;
+
+                temp[i] = arr[ptr2];
+                ptr2++;
+            }
+            else if (ptr2 > high)
+            {
+                temp[i] = arr[ptr1];
+                ptr1++;
             }
         }
-        else if (p1 > mid)
+        //copy those same elements to our prev array
+        int j = 0;
+        for (int i = low; i <= high; i++)
         {
-            newArr[i] = arr[p2];
-            p2++;
+            arr[i] = temp[j];
+            j++;
         }
-        else
+
+    }
+    void mergeSort(long long *arr, long long low, long long high)
+    {
+        if (low < high)
         {
-            newArr[i] = arr[p1];
-            p1++;
+            long long mid = (high + low) / 2;
+            mergeSort(arr, low, mid);
+            mergeSort(arr, mid + 1, high);
+            merge(arr, low, mid, high);
         }
     }
-
-    int j = 0;
-    for (int i = lb; i <= up; i++)
+    long long int inversionCount(long long arr[], long long N)
     {
-        arr[i] = newArr[j];
-        j++;
+        mergeSort(arr, 0, N - 1);
+        return ans;
     }
-    return shift;
-}
 
-int mergesort(int *arr, int lb, int up)
-{
-    int value;
-    if (lb < up)
-    {
-        int mid = (lb + up) / 2;
-        mergesort(arr, 0, mid);
-        mergesort(arr, mid + 1, up);
-        value = merge(arr, lb, mid, up);
-    }
-    return value;
-}
-
-int main()
-{
-    int arr[] = {2, 3, 4, 5, 6};
-    int ans;
-    ans = mergesort(arr, 0, 4);
-    for (int k = 0; k < 5; k++)
-        printf("%d ", arr[k]);
-    printf("\n%d", ans);
-    return 0;
-}
+};
