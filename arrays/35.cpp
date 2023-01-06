@@ -2,22 +2,18 @@
 // 1. Each student gets exactly one packet.
 // 2. The difference between maximum number of chocolates given to a student and minimum number of chocolates given to a student is minimum.
 
+class Solution {
 public:
-long long findMinDiff(vector<long long> a, long long n, long long m)
-{
-    // code
-    sort(a.begin(), a.end());
-    long long minDiff = pow(10, 9);
-    for (long long i = 0; i <= n - m; i++)
-    {
-        long long first_index, first_value;
-        long long second_index, second_value;
-        first_index = i;
-        second_index = i + m - 1;
-        long long diff = a[second_index] - a[first_index];
-        if (diff < minDiff)
+    long long findMinDiff(vector<long long> a, long long n, long long m) {
+        //code
+        sort(a.begin(), a.end());
+        int ptr1 = 0, ptr2 = m - 1;
+        long long ans = INT_MAX;
+        while (ptr2 < n)
         {
-            minDiff = diff;
+            ans = min(ans, a[ptr2] - a[ptr1]);
+            ptr2++, ptr1++;
         }
+        return ans;
     }
-    return minDiff;
+};

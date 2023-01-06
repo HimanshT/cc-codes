@@ -3,24 +3,18 @@
 // You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
 
 // Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
-class Solution
-{
+class Solution {
 public:
-    int maxProfit(vector<int> &prices)
-    {
-        int n = prices.size();
-        if (n == 1)
-            return 0;
-        int profit = 0;
-        int min = prices[0];
-        for (int i = 0; i < n; i++)
+    int maxProfit(vector<int>& prices) {
+        int ans = 0;
+        int currprice = prices[0];
+        for (int i = 1; i < prices.size(); i++)
         {
-            int curr_profit = prices[i] - min;
-            if (curr_profit > profit)
-                profit = curr_profit;
-            if (prices[i] < min)
-                min = prices[i];
+            if (prices[i] >= currprice)
+                ans = max(ans, prices[i] - currprice);
+            else if (prices[i] < currprice)
+                currprice = prices[i];
         }
-        return profit;
+        return ans;
     }
 };

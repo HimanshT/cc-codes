@@ -25,3 +25,9 @@ bool find3Numbers(int A[], int n, int X)
     }
     return false;
 }
+
+// Approach: By Sorting the array the efficiency of the algorithm can be improved.
+//  This efficient approach uses the two-pointer technique.
+//   Traverse the array and fix the first element of the triplet.
+//   Now use the Two Pointers algorithm to find if there is a pair whose sum is equal to x – array[i].
+//   Two pointers algorithm take linear time so it is better than a nested loop.

@@ -1,76 +1,40 @@
 // Given an array of positive and negative numbers, arrange them in an alternate fashion such that every positive number is followed by negative and vice-versa maintaining the order of appearance.
-#include <bits/stdc++.h>
-using namespace std;
 
-int main()
-{
-    int n;
-    cin >> n;
-    int arr[n];
-    vector<int> positive;
-    vector<int> negative;
-    for (int i = 0; i < n; i++)
-    {
-        cin >> arr[i];
-        if (arr[i] >= 0)
-            positive.push_back(arr[i]);
-        else
-            negative.push_back(arr[i]);
-    }
-    int pos = positive.size();
-    int neg = negative.size();
-    if (pos > neg)
-    {
-        int p1 = 0, p2 = 0;
+class Solution {
+public:
+
+    void rearrange(int arr[], int n) {
+        // code here
+        vector<int> pos, neg;
         for (int i = 0; i < n; i++)
         {
-            if (p1 < pos && p2 < neg)
-            {
-                if (i % 2 == 0)
-                {
-                    arr[i] = negative[p2];
-                    p2++;
-                }
-                else
-                {
-                    arr[i] = positive[p1];
-                    p1++;
-                }
-            }
+            if (arr[i] >= 0)
+                pos.push_back(arr[i]);
             else
-            {
-                arr[i] = positive[p1];
-                p1++;
-            }
+                neg.push_back(arr[i]);
         }
-    }
-    else if (pos <= neg)
-    {
-        int p1 = 0, p2 = 0;
-        for (int i = 0; i < n; i++)
+        int ptr1 = 0, ptr2 = 0;
+        int x = min(pos.size(), neg.size());
+        for (int i = 0; i < 2 * x; i += 2)
         {
-            if (p1 < pos && p2 < neg)
-            {
-                if (i % 2 == 0)
-                {
-                    arr[i] = positive[p1];
-                    p1++;
-                }
-                else
-                {
-                    arr[i] = negative[p2];
-                    p2++;
-                }
-            }
-            else
-            {
-                arr[i] = negative[p2];
-                p2++;
-            }
+            arr[i] = pos[ptr1];
+            ptr1++;
+        }
+        for (int j = 1; j < 2 * x; j += 2)
+        {
+            arr[j] = neg[ptr2];
+            ptr2++;
+        }
+        int ptr3 = 2 * x;
+        while (ptr1 < pos.size())
+        {
+            arr[ptr3] = pos[ptr1];
+            ptr3++, ptr1++;
+        }
+        while (ptr2 < neg.size())
+        {
+            arr[ptr3] = neg[ptr2];
+            ptr3++, ptr2++;
         }
     }
-
-    for (int t = 0; t < n; t++)
-        cout << arr[t] << " ";
-    return 0;
-}
+};

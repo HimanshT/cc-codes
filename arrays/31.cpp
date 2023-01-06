@@ -40,17 +40,35 @@ using namespace std;
 //         cout << diff[m - 1] + diff[m - 2] << endl;
 // }
 
-int main()
-{
-    int n;
-    cin >> n;
-    int arr[n];
-    for (int i = 0; i < n; i++)
-        cin >> arr[i];
-    findProfit(arr, n);
-    return 0;
-}
+
 
 // appraoch for two arrays
 // first find for one transaction.then get i,make subarray from there and get another transaction;
 // and add both of them;
+
+
+//divide and rule concept.Naive approach check the right and left half at every point
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<int> v1(n, 0), v2(n, 0);
+        //left half we need min value
+        int minValue = prices[0];
+        for (int i = 1; i < n; i++)
+        {
+            minValue = min(prices[i], minValue);
+            v1[i] = max(v1[i - 1], prices[i] - minValue);
+        }
+        int maxValue = prices[n - 1];
+        for (int i = n - 2; i >= 0; i--)
+        {
+            maxValue = max(prices[i], maxValue);
+            v2[i] = max(v2[i + 1], maxValue - prices[i]);
+        }
+        int ans = 0;
+        for (int i = 0; i < n; i++)
+            ans = max(ans, v1[i] + v2[i]);
+        return ans;
+    }
+};

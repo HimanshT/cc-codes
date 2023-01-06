@@ -17,7 +17,7 @@ public:
         {
             if (ptr1 <= mid and ptr2 <= high)
             {
-                if (arr[ptr1] <= arr[ptr2])
+                if (arr[ptr1] <= arr[ptr2])//made a mistake here last time
                 {
 
                     temp[i] = arr[ptr1];

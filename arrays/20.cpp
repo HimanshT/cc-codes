@@ -5,35 +5,35 @@
 class Solution {
 public:
 	void nextPermutation(vector<int>& nums) {
-		int n = nums.size();
-		int i = n - 1;
-		while (i >= 1)
+		int n = nums.size(); int idx = -1;
+		for (int i = n - 1; i > 0; i--)
 		{
 			if (nums[i - 1] < nums[i])
+			{
+				idx = i;
 				break;
-			i--;
+			}
 		}
-		if (i == 0)
+		if (idx == -1)
 		{
 			sort(nums.begin(), nums.end());
 			return;
 		}
-		int ans = INT_MAX;
-		int idx = 0;
-		for (int j = i; j < n; j++)
-		{
-			if (nums[j] > nums[i - 1] and nums[j] < ans)
+		int ans = INT_MAX, y = 0;
+		for (int x = idx; x < n; x++) {
+			if (nums[x] > nums[idx - 1] and nums[x] < ans)
 			{
-				ans = nums[j];
-				idx = j;
+				ans = nums[x];
+				y = x;
 			}
 		}
-		swap(nums[i - 1], nums[idx]);
-		sort(nums.begin() + i, nums.end());
+		swap(nums[idx - 1], nums[y]);
+		sort(nums.begin() + idx, nums.end());
 	}
 };
 
 //approach:
 //just find the first decreasing point let's say {1,2,3,8,10,5};
 //                                                ------ (8<10) so this is decreasing point,so we have to replace 8 with a number
-//just greater than this
+//just greater than this,minimum number greater than current number from that point
+//and after that sort from that point
