@@ -1,26 +1,27 @@
 // Remove duplicates from an unsorted linked list
-Node *removeDuplicates(Node *head)
+
+class Solution
 {
-    int arr[10001] = {0};
-    Node *cur, *prev, *ptr;
-    prev = head;
-    arr[prev->data]++;
-    cur = prev->next;
-    while (cur != NULL)
+public:
+    //Function to remove duplicates from unsorted linked list.
+    Node * removeDuplicates( Node *head)
     {
-        if (arr[cur->data] >= 1)
+        // your code goes here
+        unordered_map<int, int> umap;
+        Node *ptr = head;
+        umap[ptr->data]++;
+        while (ptr->next != NULL)
         {
-            prev->next = cur->next;
-            ptr = cur;
-            cur = cur->next;
-            free(ptr);
+            if (umap[ptr->next->data] == 1)
+            {
+                ptr->next = ptr->next->next;
+            }
+            else
+            {
+                ptr = ptr->next;
+                umap[ptr->data]++;
+            }
         }
-        else
-        {
-            arr[cur->data]++;
-            prev = cur;
-            cur = cur->next;
-        }
+        return head;
     }
-    return head;
-}
+};

@@ -10,17 +10,23 @@ void kmp(string text, string pattern)
 	int t = text.length();
 	int p = pattern.length();
 	int index = -1;
-	vector<int> prefix(p, 0);
-	int i, j; i = 0, j = i + 1;
-	for (; j < p; j++)
+	int prefix[p];
+	memset(prefix, 0, sizeof(prefix));
+	int len = 0, i = 1;
+	while (i < p)
 	{
-		if (pattern[i] == pattern[j])
+		if (pattern[len] == pattern[i])
 		{
-			prefix[j] = i + 1;
-		}
-		else
-		{
-			i = prefix[i];
+			len++;
+			prefix[i] = len;
+			i++;
+		} else {
+			if (len > 0)
+			{
+				len = prefix[len - 1];
+			} else {
+				i++;
+			}
 		}
 	}
 
@@ -29,20 +35,24 @@ void kmp(string text, string pattern)
 	cout << "\n";
 
 	//checking the pattern
-	int ptr1 = 0, ptr2 = 0; //ptr1---text,ptr2--pattern
-	for (; ptr1 < t; ptr1++)
+	len = 0;
+	i = 0;
+	while (i < t)
 	{
-		if (text[ptr1] == pattern[ptr2])
+		if (text[i] == pattern[len])
 		{
-			ptr2++;
-			if (ptr2 == p)
+			i++, len++;
+			if (len == p)
 			{
-				index = ptr1 - ptr2 + 1;
+				len = prefix[len - 1];
+				cout << i << " " << len << endl;
+				index = i - p ;
 			}
-		}
-		else
-		{
-			ptr2 == prefix[ptr2];
+		} else {
+			if (len == 0)
+				i++;
+			else
+				len = prefix[len - 1];
 		}
 	}
 	cout << index;
@@ -53,8 +63,8 @@ int main()
 	int test = 1;
 	while (test--)
 	{
-		string text = "thisiskmp";
-		string pattern = "is";
+		string text = "DASDCBAABAACAABAAD";
+		string pattern = "qxnjbnuxzlbpojukgycahvtpuskydgrweefftzesmhicqenyepblnubhmnfsuwoactfvulqisalkeykjplucgxjulomhmchoxomrzcatcldilnrabodhlobyfqfrsmiqaujbyluawzkjpckqqpxddaeksjcnymfyiocgcwiawsklwudolasqcwbxhfkfrpgbfihhgriejsrgouuzwopbmsyuxibqzhreryoypyebswjgsfhpwyqitqeqyghzpydhztfqrlrjhcrciargbjoubvmzbtaqsdztzgjssbebfxdpywvbhmxihjjkdjcxpcqoizgackciihxietjlhgwopfyupcreejunjcpnntvxbvhhqsuxaqlrwlmnnftupnjypyleujdxekeucatcrgupticgnvccklcbmqgizlffwlbalufecbtvjvbwsgbcrdefvmnuxsbtfewrybvacpvnmzjfhmhysngnztkxmlstqqkqritvzqilruqyiazapfopaaomliidzswsarqzhynbufzdhafxhvoivcwjmeolxkgzbwblwqmrvnwdodavzofuscdegssfeyhiwktsaflvujaknagmqngipmpygjdmjkufunxwulspuszjvhvlxewmsnkawqmfchmzwlvtwnitijcftasqeqeydpybhkijruiqgejettxdeaixabpgruexlcauojdidmylshqncnrgpzgrcvzwrfvejvyyecgkqgxkpnxrdoxuqdmubnsutnzclxapbibtozfdoduttuolxcgapyvioulztnqxwusmvyqjbkdwetievoekobtevgdrvwotqiglgwwjibgpuovpezasdvzydcryahsqqadwwaiebovyeqniqpcvmbtpgnqgukxkkajgctmghielytvqjxlvzhnhudnqnmdzpohrhtzqdddcxyuivgfwpsdlvtdkfgjwuqqdmpvpvytuwocuwhsncyyxrdkykvvgolmaahrvglrebtazdtmfrmekpoizmdiaoucrbtojggqhbqgelulegqqygzzuehutdwmhsaqagiiibqoonattsltaktvparkgowniyfifosprlffyhatzmnawgxnioxoevbmuhxbxrsocxvafwweijggrfwzuvqyrtnncmozdgpgflikjgrtpzbifxkbtabmtobwapxgxpmecwpldigujhfqhprcrtqmjrkmiishzglbecohkuewdjmkaemrzedkvowdyokxwwabyoklkojnzvyzbmqcrwnokjskacjwajzbzkojaxyauwzwlsyeonsaxmkzrvxrexufjiqjholcnlayfaetoytnlfmcajvgiqnradbkrmmezoceoizehuruzfybptjxlwrozuyrgkviaaookovrimnkulnjfxistzgvvemeqjmqlahwqepzqdlmqyvxvgqrhwoddchvlvmzxvxozmprraekabhyjxprwfwbhdwuaitxfqlgfcyyceifhqdrpuilzgogllalvwibowjtyjudncivulmkhwxgcmonzqaumivdgfwfoskexubrfpdolduprieqaeknoiqxpoefjojgimxpbddogzfxjjnjpzyghqfyfjeqxpwhcvyfybwecbdlnsuestkbjpaqagizxegzaghyjdfleiwtbtyvokwzcyscgacefkffrmfarkmyvkrydpttarteslgylkcsvizmwfoorcmmndmsvfmxzhbrshpfssypcxdycrmwwykjexdzcrybyzusikyaewrgvugymtwitgtzfyykqwlqxilgsjiyhaecukcifasbhnammbwezkwxshdmsnkbnqgkciskjnlsalgomfuoprljaqxtdjwtzcddlxnwkyqnmwbydwoupzdprckvlhqmjtqwqfudemqslrsophjggoyyriverlrdgjbwoyzukrmvjhmaovhujhucprhjeaoklpjbpkyacmxntjphgyesfauxsdgyfujqluubesdgecvyolhwjlopolmiouguormblgeqyjyfoufcfmaoapdqaryqlembyzdjhjbgvanjusnbgnricxyeowvadhbbigkqsmynolwkfjllycudzshqrequotvwchowvmjjzhtesgsqlotkidczhsvxosusckoxxxjygefylxownkivnlxufustnonraboxaxygcdepcvnrfvmsiloogijvyxmzacybcwhgbovfjiwoflioyyeghnbhmpgnufowdxchlzowhlmoyucwtgdcwgjiysvszloejslwratanfoncrjxzozvxkgvedpdpdiaxvwoxromxezbvlyxzzuwlctqgitxndxkbvyaponotopqznpzokxzmrpuzlrnqqzroyudohrjviaxxpwlbvkqmckoncdfuczictnrcgazocwlusyxojncnysccvhyyghczwtbdwbraxfwsduiohmbhfdjaliatrdtnywswzkxzrtrunbjxpmeuqqxdaxwrcrgbozxnlwmcqfyfgjcywhsmzprzpnsrfauvbsimovqgcpmlyqjuzbiytbzirrbwswttqbieyynbpzoqrxmraxrtyrdpifncdgytkgzigmlwnzofyayzxpuygyprfdtilrdxzcggrteevsltujuuzpshnjaumweanhxplfvcbbhwvsrpemjdddmqnnmblqdaxbpkiknjnuhiobyspjxspmkcbwfmmlmlm";
 		kmp(text, pattern);
 	}
 	return 0;

@@ -1,28 +1,27 @@
 // Given a string S. The task is to print all permutations of a given string in lexicographically sorted order.
 
-void permute(string S, int l, int r, vector<string> &ans)
+class Solution
 {
-	if (l == r)
+public:
+	set<string> st;
+	void fn(int low, int high, string S)
 	{
-		ans.push_back(S);
-		return;
-	}
-	else
-	{
-		for (int i = l; i <= r; i++)
+		if (low == high)
+			st.insert(S);
+		for (int ptr = low; ptr <= high; ptr++)
 		{
-			swap(S[i], S[l]);
-			permute(S, l + 1, r, ans);
-			swap(S[i], S[l]);
+			swap(S[ptr], S[low]);
+			fn(low + 1, high, S);
+			swap(S[ptr], S[low]);
 		}
 	}
-}
-
-vector<string>find_permutation(string S)
-{
-	// Code here there
-	vector<string> ans;
-	permute(S, 0, S.length() - 1, ans);
-	sort(ans.begin(), ans.end());
-	return ans;
-}
+	vector<string>find_permutation(string S)
+	{
+		fn(0, S.length() - 1, S);
+		vector<string> ans;
+		set<string>::iterator it;
+		for (it = st.begin(); it != st.end(); ++it)
+			ans.push_back(*it);
+		return ans;
+	}
+};

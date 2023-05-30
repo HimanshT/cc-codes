@@ -6,38 +6,25 @@
 
 class Solution {
 public:
-    
-    int binarySearch(vector<int>& nums,int low,int high,int target)
-    {
-        if(low<=high)
+    int search(vector<int>& nums, int target) {
+        int n = nums.size();
+        int low = 0, high = n - 1;
+        while (low < high)
         {
-            int mid=(high+low)/2;
-            if(nums[mid]==target)
-                return mid;
-            else if(nums[mid]>target)
-                return binarySearch(nums,low,mid-1,target);
-            return binarySearch(nums,mid+1,high,target);
+            int mid = (low + high) / 2;
+            if (nums[mid] > nums[high]) low = mid + 1;
+            else high = mid;
+        }
+        int rot = low;
+        int l = 0, h = n - 1;
+        while (l <= h)
+        {
+            int mid = (l + h) / 2;
+            int actualmid = (mid + rot) % n;
+            if (nums[actualmid] == target) return actualmid;
+            else if (target > nums[actualmid]) l = mid + 1;
+            else h = mid - 1;
         }
         return -1;
-    }
-    
-    int findIndex(vector<int>&nums,int n)
-    {
-       for(int j=n-1;j>0;j--)
-       {
-           if(nums[j-1]>nums[j])
-               return j;
-       }
-        return 0;
-    }
-    
-    
-    int search(vector<int>& nums, int target) {
-        int n=nums.size();
-        int index=findIndex(nums,n);
-        if(binarySearch(nums,0,index-1,target)!= -1)
-            return binarySearch(nums,0,index-1,target);
-        else 
-            return binarySearch(nums,index,n-1,target);
     }
 };

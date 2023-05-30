@@ -30,3 +30,33 @@ int knapSack(int W, int wt[], int val[], int n)
 	}
 	return dp[n][W];
 }
+
+
+
+//other approach
+class Solution
+{
+public:
+	int **dp;
+	int fn(int w, int *wt, int *val, int idx, int n)
+	{
+		if (idx == n or w == 0)
+			return 0;
+		if (dp[idx][w] != -1)
+			return dp[idx][w];
+		if (w < wt[idx])
+			return dp[idx][w] = fn(w, wt, val, idx + 1, n);
+		return dp[idx][w] = max(fn(w - wt[idx], wt, val, idx + 1, n) + val[idx], fn(w, wt, val, idx + 1, n));
+	}
+	//Function to return max value that can be put in knapsack of capacity W.
+	int knapSack(int W, int wt[], int val[], int n)
+	{
+		dp = new int *[n];
+		for (int i = 0; i < n; i++)
+		{
+			dp[i] = new int[W + 1];
+			memset(dp[i], -1, sizeof(int) * (W + 1));
+		}
+		return fn(W, wt, val, 0, n);
+	}
+};

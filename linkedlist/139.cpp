@@ -5,62 +5,62 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct node
-{
+class Node {
+public:
     int data;
-    struct node *next;
+    class Node* next;
 };
 
-void display(struct node *head)
+Node* insert(Node* head, int value)
 {
-    struct node *cur = head;
-    while (cur != NULL)
+    if (head == NULL)
     {
-        cout << cur->data << " ";
-        cur = cur->next;
+        Node* ptr = new Node();
+        ptr->data = value;
+        ptr->next = NULL;
+        return ptr;
+    }
+
+    Node *temp = new Node();
+    temp->data = value;
+    temp->next = head;
+    head = temp;
+    return head;
+}
+
+void display(Node* head)
+{
+    while (head != NULL)
+    {
+        cout << head->data << " ";
+        head = head->next;
     }
     cout << endl;
 }
 
-void insertLast(struct node *head)
+Node* reverse(Node* head)
 {
-    int n;
-    cout << "Enter the value to be inserted\n";
-    cin >> n;
-    struct node *ptr, *cur;
-    ptr = (struct node *)malloc(sizeof(struct node));
-    cur = head;
-    while (cur->next != NULL)
-        cur = cur->next;
-    ptr->data = n;
-    ptr->next = cur->next;
-    cur->next = ptr;
-}
-
-void reverse(struct node *head)
-{
-    struct node *pre, *cur, *front;
-    pre = NULL, cur = head, front = NULL;
-    while (cur != NULL)
+    Node *curr, *front, *back;
+    back = NULL, curr = head;
+    while (curr != NULL)
     {
-        front = cur->next;
-        cur->next = pre;
-        pre = cur;
-        cur = front;
+        front = curr->next;
+        curr->next = back;
+        back = curr;
+        curr = front;
     }
-    head = pre;
-    display(head);
+    return back;
 }
 
 int main()
 {
-    struct node *head;
-    head = (struct node *)malloc(sizeof(struct node));
-    head->data = 5;
-    head->next = NULL;
-    for (int i = 0; i < 3; i++)
-        insertLast(head);
+    Node *head = NULL;
+    for (int i = 0; i < 5; ++i)
+    {
+        head = insert(head, i);
+    }
+
     display(head);
-    reverse(head);
-    return 0;
+    head = reverse(head);
+    display(head);
 }

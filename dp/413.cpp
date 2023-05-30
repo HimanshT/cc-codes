@@ -10,3 +10,6 @@ int P(int n, int k) {
 		ans = (ans * i) % m;
 	return ans;
 }
+
+//write the recursive formula
+// p(n,r)=p(n-1,r) + r*p(n-1,r-1);

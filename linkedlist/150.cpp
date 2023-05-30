@@ -1,42 +1,40 @@
 // Given two singly linked lists of size N and M, write a program to get the point where two linked lists intersect each other.
 
-int length(Node *head)
+int findl(Node* head)
 {
-    Node *curr = head;
-    int count = 0;
-    while (curr != NULL)
+    int ans = 0;
+    while (head != NULL)
     {
-        count++;
-        curr = curr->next;
+        ans++, head = head->next;
     }
-    return count;
+    return ans;
 }
-int inter(Node *head1, Node *head2, int l)
-{
-    Node *temp1 = head1;
-    while (l--)
-    {
-        temp1 = temp1->next;
-    }
-    Node *temp2 = head2;
-    while (temp1 != temp2)
-    {
-        temp1 = temp1->next;
-        temp2 = temp2->next;
-    }
-    return temp1->data;
-}
-int intersectPoint(Node *head1, Node *head2)
+//Function to find intersection point in Y shaped Linked Lists.
+int intersectPoint(Node* head1, Node* head2)
 {
     // Your Code Here
-    int l1 = length(head1);
-    int l2 = length(head2);
+    int l1 = findl(head1); int l2 = findl(head2);
     if (l1 > l2)
     {
-        return inter(head1, head2, abs(l1 - l2));
-    }
-    else
+        while (l1 > l2)
+        {
+            head1 = head1->next;
+            l1--;
+        }
+    } else if (l2 > l1)
     {
-        return inter(head2, head1, abs(l1 - l2));
+        while (l2 > l1)
+        {
+            head2 = head2->next;
+            l2--;
+        }
     }
+
+    while (head1 != NULL and head2 != NULL)
+    {
+        if (head1 == head2)
+            return head1->data;
+        head1 = head1->next, head2 = head2->next;
+    }
+    return -1;
 }

@@ -2,21 +2,23 @@
 
 void splitList(Node *head, Node **head1_ref, Node **head2_ref)
 {
-    Node *middle, *last, *after;
-    middle = head, last = head, after = head->next->next;
-    while (after != head)
+    // your code goes here
+    Node *ptr1 = head, *ptr2 = head;
+    if (head->next == NULL)
     {
-        middle = middle->next;
-        if (after->next == head)
-            break;
-        after = after->next->next;
+        *head1_ref = head, *head2_ref = NULL;
+        return;
     }
-    while (last->next != head)
+    while (ptr2->next != head and ptr2->next->next != head)
     {
-        last = last->next;
+        ptr1 = ptr1->next, ptr2 = ptr2->next->next;
     }
-    *head2_ref = middle->next;
-    last->next = *head2_ref;
-    *head1_ref = head;
-    middle->next = *head1_ref;
+
+    Node *last = head;
+    while (last->next != head) last = last->next;
+
+    Node *head2 = ptr1->next; last->next = head2;
+    Node *head1 = head; ptr1->next = head1;
+    *head1_ref = head1, *head2_ref = head2;
+    return;
 }

@@ -38,3 +38,35 @@ int editDistance(string s, string t) {
 	}
 	return dp[m][n];
 }
+
+
+
+class Solution {
+public:
+	int dp[101][101];
+	int fn(int idx1, string s, int idx2, string t)
+	{
+		int ans = 0;
+		if (idx1 == -1)
+			return idx2 + 1;
+		else if (idx2 == -1)
+			return idx1 + 1;
+		else {
+			if (dp[idx1][idx2] != -1)
+				return dp[idx1][idx2];
+			if (s[idx1] == t[idx2])
+			{
+				ans = fn(idx1 - 1, s, idx2 - 1, t);
+			} else
+			{
+				ans = 1 + min(fn(idx1, s, idx2 - 1, t), min(fn(idx1 - 1, s, idx2, t), fn(idx1 - 1, s, idx2 - 1, t)));
+			}
+		}
+		return dp[idx1][idx2] = ans;
+	}
+	int editDistance(string s, string t) {
+		memset(dp, -1, sizeof(dp));
+		// Code here
+		return fn(s.length() - 1, s, t.length() - 1, t);
+	}
+};

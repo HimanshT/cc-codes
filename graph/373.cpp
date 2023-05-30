@@ -26,21 +26,15 @@ public:
 	}
 
 	// Union function
-	void unite(int x, int y)
+	if (rank[s2] > rank[s1])
 	{
-		int s1 = find(x);
-		int s2 = find(y);
-
-		if (s1 != s2) {
-			if (rank[s1] < rank[s2]) {
-				parent[s1] = s2;
-				rank[s2] += rank[s1];
-			}
-			else {
-				parent[s2] = s1;
-				rank[s1] += rank[s2];
-			}
-		}
+		parent[s1] = s2; // if the parents are different ,then the graph with lesser rank will become the child
+	}
+	else if (rank[s1] > rank[s2]) {
+		parent[s2] = s1;
+	} else {
+		parent[s2] = s1;
+		rank[s1] += 1;
 	}
 };
 

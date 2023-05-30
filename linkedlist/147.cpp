@@ -1,62 +1,54 @@
 // A number N is represented in Linked List such that each digit corresponds to a node in linked list. You need to add 1 to it.
 
-Node *addOne(Node *head)
+class Solution
 {
-    vector<int> number;
-    Node *ptr = head;
-    while (ptr != NULL)
+public:
+    Node *reverse(Node *head)
     {
-        number.push_back(ptr->data);
-        ptr = ptr->next;
+        Node *back, *curr, *front;
+        back = NULL, curr = head;
+        while (curr != NULL)
+        {
+            front = curr->next;
+            curr->next = back;
+            back = curr;
+            curr = front;
+        }
+        return back;
     }
+    Node* addOne(Node *head)
+    {
+        // Your Code here
+        // return head of list after adding one
+        Node *ptr = reverse(head);
+        int carry = 0;
+        Node *temp = ptr;
+        temp->data = temp->data + 1;
+        if (temp->data == 10)
+        {
+            carry = 1;
+            temp->data = 0;
+            temp = temp->next;
+            while (temp != NULL)
+            {
+                int sum = carry + temp->data;
+                temp->data = sum % 10;
+                carry = sum / 10;
+                temp = temp->next;
+            }
+        }
+        if (carry == 1)
+        {
+            Node *curr = new Node(carry);
+            Node *temp1 = ptr;
+            while (temp1->next != NULL) temp1 = temp1->next;
+            temp1->next = curr;
+        }
 
-    int n = number.size();
-    int carry = 1;
-    for (int i = n - 1; i >= 0; i--)
-    {
-        number[i] += carry;
-        if (number[i] >= 10)
-        {
-            carry = number[i] / 10;
-            number[i] = number[i] % 10;
-        }
-        else
-        {
-            carry = 0;
-            break;
-        }
+        Node *ans = reverse(ptr);
+        return ans;
     }
-    if (carry >= 1)
-    {
-        number.insert(number.begin(), carry);
-        Node *ptr1 = (Node *)malloc(sizeof(Node));
-        ptr1->data = carry;
-        ptr1->next = head;
-        head = ptr1;
-        Node *test;
-        test = head->next;
-        int j = 1;
-        while (test != NULL)
-        {
-            test->data = number[j];
-            j++;
-            test = test->next;
-        }
-    }
-    else
-    {
-        Node *test;
-        test = head;
-        int j = 0;
-        while (test != NULL)
-        {
-            test->data = number[j];
-            j++;
-            test = test->next;
-        }
-    }
-    return head;
-}
+};
 
 // other approach
 //  Reverse given linked list. For example, 1-> 9-> 9 -> 9 is converted to 9-> 9 -> 9 ->1.
