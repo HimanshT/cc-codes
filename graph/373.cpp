@@ -26,6 +26,8 @@ public:
 	}
 
 	// Union function
+	//having same rank,rank updates by 1
+	//having different rank,no update
 	if (rank[s2] > rank[s1])
 	{
 		parent[s1] = s2; // if the parents are different ,then the graph with lesser rank will become the child
